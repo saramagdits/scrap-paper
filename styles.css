@@ -44,12 +44,13 @@ h3 {
 	padding: 0 2rem 2rem 2rem;
  }
 .entries li {
+	padding-bottom: .25rem;
 	list-style: none;
 }
 .entries li::before {
 	color: #ccc;
 	content: "\2022";
-	font-size: 1.5rem;
+	font-size: 1.25rem;
 	padding-right: 1rem;
 	position: relative;
 	top: 0em;
@@ -72,6 +73,10 @@ h3 {
 }
 .entries__list {
 	padding-left: 0;
+	font-size: 1.25rem;
+}
+.entries li:hover {
+	color: #60c9aa;
 }
 .entries__deleteBtn {
 	color: crimson;
