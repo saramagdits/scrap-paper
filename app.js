@@ -65,16 +65,22 @@ function deleteEntry (e) {
 		const li = e.target.parentElement.parentElement;
 		//remove from localStorage
 		const entryTitle = li.innerText;
-		console.log(entryTitle);
 		//get entries from localStorage
 		let entries = JSON.parse(localStorage.getItem('entries'));
 		//look for entry with matching title
 		entries.forEach((entry, index) => {
 			if (entry.title === entryTitle) {
+				//remove entry with matching title
 				entries.splice(index, 1);
+				//return entries to localStorage
 				localStorage.setItem('entries', JSON.stringify(entries));
 			}
 		});
+		//if the entry was being displayed in view, clear view
+		if (viewTitle.innerText === entryTitle) {
+			viewTitle.innerText = '';
+			viewBody.innerText = '';
+		}
 		//remove from entries list
 		li.remove();
 	}
@@ -84,12 +90,60 @@ function deleteEntry (e) {
 // when an entry li is clicked, populate the view section with title and body
 //from localStorage? also check if entry exists (may have been deleted)
 // clear the create input values
-function displayEntry (e) {}
+function displayEntry (e) {
+	if (e.target.classList.contains('entries__item')) {
+		//clear selected entries
+		const entryItems = entriesList.querySelector('.selected-entry');
+		if (entryItems) {
+			entryItems.classList.remove('selected-entry');
+		}
+
+		//get entry title
+		const title = e.target.innerText;
+		//highlight selected entry in list
+		e.target.classList.add('selected-entry');
+		//check if entry exists
+		const entries = JSON.parse(localStorage.getItem('entries'));
+		let selectedEntry;
+		entries.forEach((entry) => {
+			if (entry.title === title) {
+				selectedEntry = entry;
+				// set view title and body
+				viewTitle.innerText = selectedEntry.title;
+				viewBody.innerText = selectedEntry.body;
+			}
+
+
+		});
+		// grab matching entry from localStorage
+		// populate view section with entry title and body
+	}
+}
 
 //Populate entries
 // when the DOM is reloaded, grab entries from localstorage and
 //populate the entries list
-function populateEntries () {}
+function populateEntries () {
+	//check if anything in localStorage
+	if (localStorage.getItem('entries') !== null) {
+		//get entries
+		const entries = JSON.parse(localStorage.getItem('entries'));
+		//append each entry to entries list
+		entries.forEach(entry => {
+			//set entry title
+			const title = entry.title;
+			//make a new entry li
+			const li = document.createElement('li');
+			li.classList.add('entries__item');
+			li.innerText = entry.title;
+			const deleteBtn = document.createElement('a');
+			deleteBtn.classList.add('entries__deleteBtn');
+			deleteBtn.innerHTML = '<i class="fas fa-times"></i>';
+			li.appendChild(deleteBtn);
+			entriesList.appendChild(li);
+		});
+	}
+}
 //---------------
 // EVENT LISTENERS
 //---------------

@@ -23,3 +23,6 @@ h2 {
 .entries__deleteBtn:hover {
 	color: #ccc;
 }
+.selected-entry {
+	background-color: #bbb;
+}
