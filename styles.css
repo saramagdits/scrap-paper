@@ -1,0 +1,17 @@
+body {
+	font-family: 'Rubik', sans-serif;
+}
+h2 {
+	font-weight: 500;
+}
+.create__title {
+	display: block;
+}
+
+.create__body {
+	display: block;
+}
+
+.entries, .create, .view {
+	border: 2px solid #ccc;
+}
