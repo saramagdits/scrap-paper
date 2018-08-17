@@ -78,7 +78,7 @@ function deleteEntry (e) {
 		});
 		//if the entry was being displayed in view, clear view
 		if (viewTitle.innerText === entryTitle) {
-			viewTitle.innerText = '';
+			viewTitle.innerText = 'Click a scrap to view it';
 			viewBody.innerText = '';
 		}
 		//remove from entries list
