@@ -31,15 +31,17 @@ function createEntry (e) {
 			const li = document.createElement('li');
 			li.classList.add('entries__item');
 			li.innerText = entry.title;
+			const deleteBtn = document.createElement('a');
+			deleteBtn.classList.add('entries__deleteBtn');
+			deleteBtn.innerHTML = '<i class="fas fa-times"></i>';
+			li.appendChild(deleteBtn);
 			entriesList.appendChild(li);
 			//add entry to localStorage
 			let newEntry;
 			//check if localStorage is empty
 			if (localStorage.getItem('entries') === null) {
-				console.log('empty localStorage');
 				newEntry = [];
 			} else {
-				console.log('something in localStorage');
 				newEntry = JSON.parse(localStorage.getItem('entries'));
 			}
 			newEntry.push(entry);
@@ -53,16 +55,37 @@ function createEntry (e) {
 	}
 	e.preventDefault();
 }
+
+// Delete entry
+// when 'x' on entry li is clicked, delete the entry from the entries list
+//as well as localStorage
+// ask user to confirm deletion
+function deleteEntry (e) {
+	if (e.target.parentElement.classList.contains('entries__deleteBtn')) {
+		const li = e.target.parentElement.parentElement;
+		//remove from localStorage
+		const entryTitle = li.innerText;
+		console.log(entryTitle);
+		//get entries from localStorage
+		let entries = JSON.parse(localStorage.getItem('entries'));
+		//look for entry with matching title
+		entries.forEach((entry, index) => {
+			if (entry.title === entryTitle) {
+				entries.splice(index, 1);
+				localStorage.setItem('entries', JSON.stringify(entries));
+			}
+		});
+		//remove from entries list
+		li.remove();
+	}
+}
+
 // Display entry
 // when an entry li is clicked, populate the view section with title and body
 //from localStorage? also check if entry exists (may have been deleted)
 // clear the create input values
 function displayEntry (e) {}
-// Delete entry
-// when 'x' on entry li is clicked, delete the entry from the entries list
-//as well as localStorage
-// ask user to confirm deletion
-function deleteEntry (e) {}
+
 //Populate entries
 // when the DOM is reloaded, grab entries from localstorage and
 //populate the entries list
@@ -73,9 +96,9 @@ function populateEntries () {}
 
 // listen for click on submit
 create.addEventListener('click', createEntry);
-//listen for click on any entry li
-entriesList.addEventListener('click', displayEntry);
 //listen for click on any entry li delete button 'x'
 entriesList.addEventListener('click', deleteEntry);
+//listen for click on any entry li
+entriesList.addEventListener('click', displayEntry);
 //listen for DOM reload to populate data from localStorage
 document.addEventListener('DOMContentLoaded', populateEntries);
